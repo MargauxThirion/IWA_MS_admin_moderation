@@ -68,4 +68,17 @@ public class FlagController {
         List<Flags> flags = flagService.getFlagsByStatus(status);
         return ResponseEntity.ok(flags);
     }
+    // Endpoint pour récupérer les flags avec locationId non nul et status 'pending'
+    @GetMapping("/locations")
+    public ResponseEntity<List<Flags>> getFlagsByLocation() {
+        List<Flags> flags = flagService.getFlagsByLocationAndStatus("pending");
+        return ResponseEntity.ok(flags);
+    }
+    // Endpoint pour récupérer les flags avec commentId non nul et status 'pending'
+    @GetMapping("/comments")
+    public ResponseEntity<List<Flags>> getFlagsByComment() {
+        List<Flags> flags = flagService.getFlagsByCommentAndStatus("pending");
+        return ResponseEntity.ok(flags);
+    }
+    
 }

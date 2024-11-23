@@ -86,4 +86,14 @@ public class FlagService {
             System.err.println("Erreur lors de l'appel au service de notifications : " + e.getMessage());
         }
     }
+
+    // Récupérer les flags avec locationId non nul et status 'pending'
+    public List<Flags> getFlagsByLocationAndStatus(String status) {
+        return flagRepository.findByLocationIdNotNullAndStatus(status);
+    }
+
+    // Récupérer les flags avec commentId non nul et status 'pending'
+    public List<Flags> getFlagsByCommentAndStatus(String status) {
+        return flagRepository.findByCommentIdNotNullAndStatus(status);
+    }
 }
