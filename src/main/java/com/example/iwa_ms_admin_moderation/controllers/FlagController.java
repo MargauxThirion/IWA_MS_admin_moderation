@@ -41,16 +41,20 @@ public class FlagController {
         return flag.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Endpoint pour mettre à jour un flag
     @PutMapping("/{flagId}")
     public ResponseEntity<Flags> updateFlag(@PathVariable Integer flagId, @RequestBody Flags updatedFlag) {
-        if (!flagService.getFlagById(flagId).isPresent()) {
+        Optional<Flags> existingFlag = flagService.getFlagById(flagId);
+    
+        if (!existingFlag.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+    
         updatedFlag.setFlagId(flagId); // Assurer la mise à jour du bon flag
-        Flags flag = flagService.updateFlag(updatedFlag);
-        return ResponseEntity.ok(flag);
+        Flags updated = flagService.updateFlag(updatedFlag);
+        return ResponseEntity.ok(updated);
     }
+    
+    
 
     // Endpoint pour supprimer un flag par ID
     @DeleteMapping("/{flagId}")

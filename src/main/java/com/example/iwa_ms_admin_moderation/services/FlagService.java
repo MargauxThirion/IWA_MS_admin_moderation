@@ -45,8 +45,36 @@ public class FlagService {
 
     // Mettre à jour un flag
     public Flags updateFlag(Flags flag) {
-        return flagRepository.save(flag);
+        Optional<Flags> existingFlag = flagRepository.findById(flag.getFlagId());
+        if (existingFlag.isPresent()) {
+            Flags flagToUpdate = existingFlag.get();
+    
+            // Mettre à jour les champs spécifiques uniquement si présents dans le body
+            if (flag.getLocationId() != null) {
+                flagToUpdate.setLocationId(flag.getLocationId());
+            }
+            if (flag.getUserId() != null) {
+                flagToUpdate.setUserId(flag.getUserId());
+            }
+            if (flag.getCommentId() != null) {
+                flagToUpdate.setCommentId(flag.getCommentId());
+            }
+            if (flag.getReason() != null) {
+                flagToUpdate.setReason(flag.getReason());
+            }
+            if (flag.getReviewedBy() != null) {
+                flagToUpdate.setReviewedBy(flag.getReviewedBy());
+            }
+            if (flag.getStatus() != null) {
+                flagToUpdate.setStatus(flag.getStatus());
+            }
+    
+            return flagRepository.save(flagToUpdate);
+        } else {
+            throw new IllegalArgumentException("Flag introuvable avec l'ID : " + flag.getFlagId());
+        }
     }
+    
 
     // Supprimer un flag par ID
     public void deleteFlag(Integer flagId) {
